@@ -5,13 +5,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        myGreen: '#03A48B',
-        myGreenFaded: '#E0F4F1',
+        myBlueFaded: '#E1E8FB',
+        myBlue: '#6387FF',
+        myBlueDark: '#015092',
         myGray1: '#F0F3F6',
         myGray2: '#EDF0F5',
-        myGray3: '#D0D3E3'
+        myGray3: '#D0D3E3',
+        myPink: '#FE5E76',
       }
     },
   },
   plugins: [],
 }
+
