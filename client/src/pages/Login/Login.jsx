@@ -31,7 +31,7 @@ const Login = () => {
           setFlag={setFlag}
         />
       )}
-      {flag && <After otp={otp} setOtp={setOtp} />}
+      {flag && <After otp={otp} setOtp={setOtp} auth={auth} setAuth={setAuth} name={name} />}
     </Wrapper>
   );
 };

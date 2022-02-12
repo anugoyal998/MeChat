@@ -2,6 +2,7 @@ import React from "react";
 import tw from "tailwind-styled-components";
 import { sendOtp } from "../../http";
 import Input from "../../components/Input";
+import errorHandler from "../../utils/errorHandler";
 
 const Before = (props) => {
   const { name, setName, phone, setPhone, setAuth, setFlag } = props;
@@ -10,14 +11,11 @@ const Before = (props) => {
       alert("All fields are required");
       return;
     }
-    try {
+    errorHandler(async ()=> {
       const { data } = await sendOtp({ phone });
       setAuth((prev) => ({ ...prev, otp: data }));
       setFlag(true);
-    } catch (error) {
-      console.log(error);
-      return;
-    }
+    },`client\src\pages\Login\Before.jsx`)
   };
   return (
     <div className="flex-center-center flex-col">

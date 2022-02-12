@@ -1,5 +1,7 @@
 const otpService = require("../services/otp-service");
 const hashService = require("../services/hash-service");
+const userService = require("../services/user-service");
+const tokenService = require("../services/token-service");
 
 class AuthController{
     async sendOtp(req, res){
@@ -15,6 +17,49 @@ class AuthController{
         // await otpService.sendBySms(phone, otp);
         // res.status(200).json({ hash: `${hash}.${expires}`, phone });
         res.status(200).json({ hash: `${hash}.${expires}`, phone, otp });
+    }
+    async verifyOtp(req,res){
+        const { otp, hash, phone, name } = req.body;
+        if (!otp || !hash || !phone || !name){
+            return res.status(400).json({ msg: "error" });
+        }
+        const [hashedOtp, expires] = hash.split(".");
+        if (Date.now() > +expires) {
+            return res.status(400).json({ msg: "Session Timeout" });
+        }
+        const data = `${phone}.${otp}.${expires}`;
+        const isValid = otpService.verifyOtp(hashedOtp, data)
+        if(!isValid) {
+            return res.status(400).json({ msg: "Invalid Otp" });
+        }
+        let user;
+        user = await userService.findUser({phone: phone})
+        if(!user){
+            user = await userService.createUser({phone: phone, name})
+        }
+        const  {accessToken, refreshToken} = tokenService.generateTokens({_id: user._id, name, phone})
+        await tokenService.storeRefreshToken(refreshToken,user._id)
+        res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
+        res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
+        res.status(200).json({user, auth: true})
+    }
+    async refresh(req, res) {
+        if(!req.cookies?.refreshToken)return res.status(400).json({ msg: "error" });  
+        const {refreshToken: refreshTokenFromCookie} = req.cookies
+        const userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie)
+        const token = await tokenService.findRefreshToken(userData._id,refreshTokenFromCookie)
+        if(!token) {
+            return res.status(400).json({ msg: "error" });  
+        }
+        const user = await userService.findUser({_id: userData._id})
+        if(!user){
+            return res.status(400).json({ msg: "error" })
+        }
+        const {refreshToken,accessToken} = tokenService.generateTokens({_id: userData._id, name: user.name, phone: user.phone})
+        await tokenService.updateRefreshToken(userData._id,refreshToken)
+        res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
+        res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
+        res.status(200).json({user, auth: true})
     }
 }
 

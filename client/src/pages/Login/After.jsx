@@ -1,9 +1,32 @@
 import React from "react";
 import tw from "tailwind-styled-components";
 import Input from "../../components/Input";
+import { verifyOtp } from "../../http";
+import errorHandler from "../../utils/errorHandler";
+import { useNavigate } from "react-router-dom";
 
 const After = (props) => {
-  const { otp, setOtp } = props;
+  const { otp, setOtp, auth, setAuth, name } = props;
+  const { phone, hash } = auth?.otp;
+  const navigate = useNavigate();
+  const handleLoginClick = async () => {
+    if (!phone || !hash || !otp) {
+      alert("Error");
+      return;
+    }
+    await errorHandler(async () => {
+      const { data } = await verifyOtp({ otp, phone, hash, name });
+      setAuth((prev) => ({
+        ...prev,
+        user: {
+          _id: data?.user?._id,
+          name: data?.user?.name,
+          phone: data?.user?.phone,
+        },
+      }));
+      navigate("/chat");
+    }, `client\src\pages\Login\After.jsx`);
+  };
   return (
     <div className="flex-center-center flex-col">
       <WelcomeText>Welcome to ChatApp</WelcomeText>
@@ -16,7 +39,7 @@ const After = (props) => {
         margin="true"
         classes="mt-5"
       />
-      <LoginButton>Login</LoginButton>
+      <LoginButton onClick={handleLoginClick}>Login</LoginButton>
     </div>
   );
 };

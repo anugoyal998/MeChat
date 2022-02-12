@@ -5,12 +5,14 @@ const app = express(); // express app
 const cors = require("cors"); // cors
 const router = require("./router"); // router
 const PORT = process.env.PORT || 5000; // port
+const cookieParser = require("cookie-parser"); // cookie parser
 
 // middlewares
 app.use(cors({ origin: [process.env.FRONTEDN_URL], credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use((err, req, res, next) => {
-  // console.log(err)
+  console.log(err)
   res.status(500).send({ msg: "someting went wrong" });
 });
 app.use("/", router);

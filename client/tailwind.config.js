@@ -12,9 +12,12 @@ module.exports = {
         myGray2: '#EDF0F5',
         myGray3: '#D0D3E3',
         myPink: '#FE5E76',
+        hoverBg: '#F7F8FA',
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+  ],
 }
 
