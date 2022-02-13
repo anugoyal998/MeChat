@@ -12,5 +12,6 @@ const api = axios.create({
 export const sendOtp = (data) => api.post(`/api/send-otp`,data)
 export const verifyOtp = (data) => api.post(`/api/verify-otp`,data)
 export const refreshToken = ()=> api.get(`/api/refresh`)
+export const updateAvatar = (data)=> api.post(`/api/update-avatar`,data)
 
 export default api

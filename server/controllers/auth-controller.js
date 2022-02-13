@@ -61,6 +61,15 @@ class AuthController{
         res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
         res.status(200).json({user, auth: true})
     }
+    async updateAvatar(req, res){
+        const user = req.user
+        const {avatar} = req.body
+        if(!user || !avatar){
+            return res.status(400).json({ msg: "error" });  
+        }
+        await userService.updateUser(user?._id,{avatar})
+        res.status(200).json({auth: true})
+    }
 }
 
 module.exports = new AuthController()

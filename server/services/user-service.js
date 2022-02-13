@@ -9,6 +9,9 @@ class UserService{
         const user = await UserModel.create(data)
         return user
     }
+    async updateUser(_id,data){
+        await UserModel.findByIdAndUpdate(_id,data)
+    }
 }
 
 module.exports = new UserService()

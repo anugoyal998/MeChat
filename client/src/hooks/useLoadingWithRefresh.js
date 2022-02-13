@@ -17,9 +17,9 @@ export const useLoadingWithRefresh = ()=> {
                     _id: data?.user?._id,
                     name: data?.user?.name,
                     phone: data?.user?.phone,
+                    avatar: data?.user?.avatar
                 }}))
                 setLoading(false)
-                console.log(data)
             } catch (error) {
                 console.log(error);
                 setLoading(false)
