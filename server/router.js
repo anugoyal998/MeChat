@@ -1,5 +1,6 @@
 const express = require('express');
 const authController = require('./controllers/auth-controller');
+const chatController = require('./controllers/chat-controller');
 const authMiddleware = require('./middlewares/auth-middleware')
 const router = express.Router();
 
@@ -11,5 +12,6 @@ router.post('/api/send-otp',use(authController.sendOtp))
 router.post('/api/verify-otp',use(authController.verifyOtp))
 router.get('/api/refresh',use(authController.refresh))
 router.post('/api/update-avatar',authMiddleware,use(authController.updateAvatar))
+router.get('/api/all-users',authMiddleware,use(chatController.getAllUsers))
 
 module.exports = router

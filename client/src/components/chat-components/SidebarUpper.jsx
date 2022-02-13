@@ -7,22 +7,24 @@ import Searchbar from "../Searchbar";
 import logo from "../../img/logo-lg.png";
 import avatar from "../../img/avatar.png";
 import { FiSettings } from "react-icons/fi";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import authState from "../../atoms/authState";
 import errorHandler from "../../utils/errorHandler";
 import cloudinary from "../../functions/cloudinary";
 import { updateAvatar } from "../../http";
 
 const SidebarUpper = () => {
-  const { user } = useRecoilValue(authState);
+  const [auth, setAuth] = useRecoilState(authState);
+  const { user } = auth;
   const handleAvatarChange = async (e) => {
     await errorHandler(async () => {
-		const formData = new FormData();
-        formData.append("file", e.target.files[0]);
-        formData.append("upload_preset", "mechat");
-		const data = await cloudinary.uploadImageToCloudinary(formData)
-		await updateAvatar({avatar: data})
-	},`client\src\components\chat-components\SidebarUpper.jsx`);
+      const formData = new FormData();
+      formData.append("file", e.target.files[0]);
+      formData.append("upload_preset", "mechat");
+      const data = await cloudinary.uploadImageToCloudinary(formData);
+      await updateAvatar({ avatar: data });
+      setAuth((prev) => ({ ...prev, user: { ...prev.user, avatar: data } }));
+    }, `client\src\components\chat-components\SidebarUpper.jsx`);
   };
   return (
     <div>

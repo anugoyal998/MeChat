@@ -19,3 +19,8 @@
         @apply transition-all ease-in-out duration-300
     }
 }
+
+.faded-bg{
+    background: rgba(237, 240, 245, 0.5);
+    backdrop-filter: blur(4px);
+}

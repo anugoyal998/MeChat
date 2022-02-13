@@ -12,6 +12,10 @@ class UserService{
     async updateUser(_id,data){
         await UserModel.findByIdAndUpdate(_id,data)
     }
+    async allUsers(){
+        const data = await UserModel.find({})
+        return data
+    }
 }
 
 module.exports = new UserService()

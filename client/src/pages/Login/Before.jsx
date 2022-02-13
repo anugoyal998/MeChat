@@ -11,7 +11,7 @@ const Before = (props) => {
       alert("All fields are required");
       return;
     }
-    errorHandler(async ()=> {
+    await errorHandler(async ()=> {
       const { data } = await sendOtp({ phone });
       setAuth((prev) => ({ ...prev, otp: data }));
       setFlag(true);

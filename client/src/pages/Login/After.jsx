@@ -22,6 +22,7 @@ const After = (props) => {
           _id: data?.user?._id,
           name: data?.user?.name,
           phone: data?.user?.phone,
+          avatar: data?.user?.avatar
         },
       }));
       navigate("/chat");
