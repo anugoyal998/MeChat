@@ -13,8 +13,16 @@ class MsgFunctions{
     }
     async getMsgs(reciever,setMsgs){
         await errorHandler(async () => {
-            const {data} = await getMsgs({reciever});
-            setMsgs(data)
+            const {data} = await getMsgs({reciever})
+            let msgs = data?.msgs
+            msgs.sort((a,b) => {
+                let x = a.createdAt
+                let y = b.createdAt
+                if(x<y)return -1;
+                if(x>y)return 1;
+                return 0;
+            })
+            setMsgs(msgs)
         },`client\src\components\chat-components\message-components\ShowMessages.jsx`)
     }
 }
