@@ -86,6 +86,10 @@ const addUserToArray = ({user,id})=> {
 	arr.push({user,id})
 }
 
+const removeUserFromArray = ({id}) => {
+	arr = arr.filter(e=> e?.id !== id)
+}
+
 io.on('connection',socket=> {
 	const id = socket?.id
 	// join room
@@ -93,7 +97,16 @@ io.on('connection',socket=> {
 		addUserToArray({user: data, id})
 		io.emit('activeUsers',arr)
 	})
+	// disconnect
+	socket.on('disconnect',()=> {
+		removeUserFromArray({id})
+		io.emit('activeUsers',arr)
+	})
 })
+
+setInterval(() => {
+	console.log(arr.length)
+}, 3000);
 
 
 

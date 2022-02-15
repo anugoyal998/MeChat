@@ -16,12 +16,13 @@ const App = () => {
   useEffect(() => {
 	  if(!auth || !auth?.user)return
 	  socket?.current?.emit('user-online',auth?.user)
-  },[auth,loading])
+  },[auth,loading,socket])
   useEffect(() => {
 	  socket?.current?.on('activeUsers',data=> {
 		  setActiveUsers(data)
 	  })
-  },[socket])
+  },[socket,auth,loading])
+  console.log(activeUsers)
   return (
     <>
       <Router>
