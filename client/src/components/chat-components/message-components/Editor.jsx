@@ -8,14 +8,13 @@ import newMsgState from "../../../atoms/newMsgState";
 import msgFunctions from "../../../functions/msgFunctions";
 import useSocket from "../../../hooks/useSocket";
 
-const Editor = () => {
+const Editor = ({msgs,setMsgs, socket}) => {
   const [msg, setMsg] = useState("");
   const currentChat = useRecoilValue(currentChatState);
   const {user} = useRecoilValue(authState);
-  const socket = useSocket()
   const [newMsg,setNewMsg] = useRecoilState(newMsgState)
   const sendMsg = async (e) => {
-    await msgFunctions.sendMsg(e, msg,user?._id, currentChat?._id, "Text", setMsg,socket,setNewMsg);
+    await msgFunctions.sendMsg(e, msg,user?._id, currentChat?._id, "Text", setMsg,socket,setNewMsg,setMsgs);
   };
   return (
     <>

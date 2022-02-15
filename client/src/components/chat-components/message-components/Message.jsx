@@ -1,20 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import authState from "../../../atoms/authState";
 import currentChatState from "../../../atoms/currentChatState";
-import activeUsersState from '../../../atoms/activeUsersState'
 import { getAllUsers } from "../../../http";
 import errorHandler from "../../../utils/errorHandler";
 import Editor from "./Editor";
 import MsgNavbar from "./MsgNavbar";
 import ShowMessages from "./ShowMessages";
-import useSocket from "../../../hooks/useSocket";
 
-const Message = ({flag, setFlag}) => {
+const Message = ({flag, setFlag, socket}) => {
   const [currentChat, setCurrentChat] = useRecoilState(currentChatState);
-  const [activeUsers, setActiveUsers] = useRecoilState(activeUsersState);
+  const [msgs,setMsgs] = useState([])
   const { user } = useRecoilValue(authState);
-  const socket = useSocket()
   useEffect(() => {
     if(currentChat)return
     async function fetch() {
@@ -26,12 +23,6 @@ const Message = ({flag, setFlag}) => {
     }
     fetch();
   }, []);
-  useEffect(() => {
-	  socket.current.emit('addUser',user)
-	  socket.current.on('getUsers',users=> {
-		  setActiveUsers(users)
-	  })
-  },[user])
   const ele = document.getElementById("message");
   const parentHeight = ele?.offsetHeight;
   const scrollRef = useRef()
@@ -47,8 +38,8 @@ const Message = ({flag, setFlag}) => {
         ref={scrollRef}
       >
         <MsgNavbar />
-        <ShowMessages parentHeight={parentHeight} scrollRef={scrollRef} />
-        <Editor />
+        <ShowMessages socket={socket} parentHeight={parentHeight} scrollRef={scrollRef} msgs={msgs} setMsgs={setMsgs} />
+        <Editor socket={socket} msgs={msgs} setMsgs={setMsgs} /> 
       </div>
     </div>
     <div
@@ -60,8 +51,8 @@ const Message = ({flag, setFlag}) => {
         ref={scrollRef}
       >
         <MsgNavbar flag={flag} setFlag={setFlag}/>
-        <ShowMessages parentHeight={parentHeight} scrollRef={scrollRef} />
-        <Editor />
+        <ShowMessages socket={socket} parentHeight={parentHeight} scrollRef={scrollRef} msgs={msgs} setMsgs={setMsgs} />
+        <Editor socket={socket} msgs={msgs} setMsgs={setMsgs} /> 
       </div>
     </div>
     </>

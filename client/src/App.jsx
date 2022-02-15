@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { useRecoilState, useRecoilValue } from "recoil";
 import activeUsersState from "./atoms/activeUsersState";
 import authState from "./atoms/authState";
+import socketState from "./atoms/socketState";
 import {useLoadingWithRefresh} from './hooks/useLoadingWithRefresh'
 import useSocket from "./hooks/useSocket";
 import Chat from "./pages/Chat/Chat";
@@ -12,6 +13,7 @@ const App = () => {
   const {loading} = useLoadingWithRefresh()
   const auth = useRecoilValue(authState)
   const [activeUsers,setActiveUsers] = useRecoilState(activeUsersState)
+  const [Socket,setSocket] = useRecoilState(socketState)
   const socket = useSocket()
   useEffect(() => {
 	  if(!auth || !auth?.user)return
@@ -22,13 +24,13 @@ const App = () => {
 		  setActiveUsers(data)
 	  })
   },[socket,auth,loading])
-  console.log(activeUsers)
+  console.log(socket?.current?.id)
   return (
     <>
       <Router>
         <Routes>
           <Route path="/" element={auth && auth?.user ? <Navigate to="/chat" /> : <Login />} />
-          <Route path="/chat" element={auth && auth?.user ? <Chat/> : <Navigate to="/" />}/>
+          <Route path="/chat" element={auth && auth?.user ? <Chat socket={socket} /> : <Navigate to="/" />}/>
         </Routes>
       </Router>
     </>

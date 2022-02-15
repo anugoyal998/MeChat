@@ -33,50 +33,7 @@ app.get("/", (req, res) => {
 });
 
 /****  Socket.io   ****/
-// let users = []
 
-// const addUser = (user,socketId) => {
-// 	!users.some(e=> e?.user?._id === user?._id) && users.push({user, socketId})
-// }
-
-// const getUser = (userId) => {
-// 	return users.find(user=> user?.user?._id === userId)
-// }
-
-// const removeUser = (socketId) => {
-// 	users = users.filter(user=> user?.socketId !== socketId)
-// }
-
-// io.on("connection",(socket) => {
-// 	const id = socket.handshake.query.id
-// 	socket.join(id)
-// 	// connect
-// 	socket.on('addUser',user=> {
-// 		addUser(user,id)
-// 		io.emit('getUsers',users)
-// 	})
-// 	// send message
-// 	socket.on('sendMessage',({sender, reciever, msgType, msg})=> {
-// 		const user = getUser(reciever)
-// 		console.log(user)
-// 		io.to(user?.socketId).emit('getMessage',{sender, msgType, msg})
-// 	})
-// 	//disconnect
-// 	socket.on('disconnect',()=> {
-// 		removeUser(id)
-// 		io.emit('getUsers',users)
-// 	})
-// })
-
-
-
-
-
-
-
-
-
-/****  Socket.io   ****/
 
 let arr = []
 
@@ -90,12 +47,25 @@ const removeUserFromArray = ({id}) => {
 	arr = arr.filter(e=> e?.id !== id)
 }
 
+const getSocketIdFromUserID = ({id}) => {
+	const find = arr.find(e=> e?.user?._id === id)
+	return find?.id
+}
+
 io.on('connection',socket=> {
 	const id = socket?.id
 	// join room
 	socket.on('user-online',data=> {
 		addUserToArray({user: data, id})
 		io.emit('activeUsers',arr)
+	})
+	// send msg
+	socket.on('send-msg',data=> {
+		console.log(data)
+		const recieverSocketId = getSocketIdFromUserID({id: data?.reciever})
+		console.log(recieverSocketId === id)
+		console.log(recieverSocketId)
+		io.to(recieverSocketId).emit('rec-msg',data)
 	})
 	// disconnect
 	socket.on('disconnect',()=> {
@@ -104,13 +74,9 @@ io.on('connection',socket=> {
 	})
 })
 
-setInterval(() => {
-	console.log(arr.length)
-}, 3000);
-
-
+/****  Socket.io   ****/
 
 //listen app
 server.listen(PORT, () => {
-  console.log(`listening on ${PORT}`);
+	console.log(`listening on ${PORT}`);
 });

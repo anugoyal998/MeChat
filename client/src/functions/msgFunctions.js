@@ -2,14 +2,15 @@ import { getMsgs, sendMsg } from "../http";
 import errorHandler from "../utils/errorHandler";
 
 class MsgFunctions {
-  async sendMsg(e, msg, sender, reciever, msgType, setMsg, socket,setNewMsg) {
+  async sendMsg(e, msg, sender, reciever, msgType, setMsg, socket,setNewMsg, setMsgs) {
     if (!msg) return;
     if ((e.type === "keypress" && e.key === "Enter") || e.type === "click") {
-      socket.current.emit("sendMessage", { sender, reciever, msgType, msg });
+      socket?.current?.emit("send-msg", { sender, reciever, msgType, msg });
       await errorHandler(async () => {
         const { data } = await sendMsg({ reciever, msg, msgType });
         setMsg("");
         setNewMsg(prev=> !prev);
+        setMsgs(prev=> [...prev,{ sender, reciever, msgType, msg }])
       }, `client\src\components\chat-components\message-components\Editor.jsx`);
     }
   }
