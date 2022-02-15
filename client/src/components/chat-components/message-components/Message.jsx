@@ -10,12 +10,13 @@ import MsgNavbar from "./MsgNavbar";
 import ShowMessages from "./ShowMessages";
 import useSocket from "../../../hooks/useSocket";
 
-const Message = () => {
+const Message = ({flag, setFlag}) => {
   const [currentChat, setCurrentChat] = useRecoilState(currentChatState);
   const [activeUsers, setActiveUsers] = useRecoilState(activeUsersState);
   const { user } = useRecoilValue(authState);
   const socket = useSocket()
   useEffect(() => {
+    if(currentChat)return
     async function fetch() {
       await errorHandler(async () => {
         const { data } = await getAllUsers();
@@ -35,9 +36,10 @@ const Message = () => {
   const parentHeight = ele?.offsetHeight;
   const scrollRef = useRef()
   return (
+    <>
     <div
       style={{ width: "calc(100vw - 300px - 0.75rem)" }}
-      className="h-screen py-3"
+      className="h-screen py-3 hidden sm:inline-flex "
     >
       <div
         className="w-full h-full bg-myGray2 rounded-lg overflow-y-scroll scrollbar-hide"
@@ -49,6 +51,20 @@ const Message = () => {
         <Editor />
       </div>
     </div>
+    <div
+      className="h-screen py-3 w-screen sm:hidden"
+    >
+      <div
+        className="w-full h-full bg-myGray2 rounded-lg overflow-y-scroll scrollbar-hide"
+        id="message"
+        ref={scrollRef}
+      >
+        <MsgNavbar flag={flag} setFlag={setFlag}/>
+        <ShowMessages parentHeight={parentHeight} scrollRef={scrollRef} />
+        <Editor />
+      </div>
+    </div>
+    </>
   );
 };
 

@@ -7,58 +7,7 @@ import { getAllUsers } from "../../http";
 import errorHandler from "../../utils/errorHandler";
 import currentChatState from "../../atoms/currentChatState";
 
-const data = [
-  {
-    avtar: img,
-    name: "anubhav",
-    msg: "hell0",
-    time: "11:00",
-  },
-  {
-    avtar: img,
-    name: "anubhav",
-    msg: "hell0",
-    time: "11:00",
-  },
-  {
-    avtar: img,
-    name: "anubhav",
-    msg: "hell0",
-    time: "11:00",
-  },
-  {
-    avtar: img,
-    name: "anubhav",
-    msg: "hell0",
-    time: "11:00",
-  },
-  {
-    avtar: img,
-    name: "anubhav",
-    msg: "hell0",
-    time: "11:00",
-  },
-  {
-    avtar: img,
-    name: "anubhav",
-    msg: "hell0",
-    time: "11:00",
-  },
-  {
-    avtar: img,
-    name: "anubhav",
-    msg: "hell0",
-    time: "11:00",
-  },
-  {
-    avtar: img,
-    name: "anubhav",
-    msg: "hell0",
-    time: "11:00",
-  },
-];
-
-const ShowPeople = () => {
+const ShowPeople = ({ search, setSearch, flag, setFlag }) => {
   const { user } = useRecoilValue(authState);
   const [users, setUsers] = useRecoilState(allUsersState);
   useEffect(() => {
@@ -73,19 +22,23 @@ const ShowPeople = () => {
   return (
     <div className="flex space-y-2 flex-col mt-2">
       {users?.map((p, index) => {
-        return user?._id !== p._id && <Card key={index} data={p} />;
+        return user?._id !== p._id && <Card key={index} data={p} flag={flag} setFlag={setFlag} />;
       })}
     </div>
   );
 };
 
 const Card = (props) => {
-  const { data } = props;
+  const { data, flag, setFlag } = props;
   const [currentChat, setCurrentChat] = useRecoilState(currentChatState);
+  const handleClick = () => {
+    setCurrentChat(data)
+    setFlag(true)
+  }
   return (
     <div
       className="flex justify-between p-3 cursor-pointer hover:bg-hoverBg rounded-lg border shadow-sm"
-      onClick={() => setCurrentChat(data)}
+      onClick={handleClick}
     >
       <div className="flex items-center space-x-2">
         <img

@@ -55,7 +55,7 @@ const Card = ({ data, currentChat }) => {
       }`}
     >
       <div
-        className={`w-[60%] p-3 ${
+        className={`w-[90%] md:w-[60%] p-3 ${
           currentChat?._id === data?.reciever ? "bg-myGray3" : "bg-white"
         } rounded-xl shadow-sm cursor-pointer hover:opacity-80 animation`}
       >

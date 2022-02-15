@@ -13,7 +13,7 @@ import errorHandler from "../../utils/errorHandler";
 import cloudinary from "../../functions/cloudinary";
 import { updateAvatar } from "../../http";
 
-const SidebarUpper = () => {
+const SidebarUpper = ({ search, setSearch }) => {
   const [auth, setAuth] = useRecoilState(authState);
   const { user } = auth;
   const handleAvatarChange = async (e) => {
@@ -53,7 +53,13 @@ const SidebarUpper = () => {
         <PrimaryBtn>
           <span>available</span> <FaChevronDown className="text-sm mt-1" />
         </PrimaryBtn>
-        <Searchbar type="search" placeholder="Search" classes="w-full mt-4" />
+        <Searchbar
+          type="search"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          classes="w-full mt-4"
+        />
       </div>
       <div className="flex justify-end items-center space-x-1 mt-3">
         <PrimaryBtn>

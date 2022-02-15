@@ -14,11 +14,11 @@ const Login = () => {
   const [otp, setOtp] = useState("");
   return (
     <Wrapper>
-      <div className="flex-center-center col-span-2">
+      <div className="flex-center-center">
         <img
           src={loginVector}
           alt="loginVector"
-          className="transform scale-125"
+          className="hidden lg:block"
         />
       </div>
       {!flag && (
@@ -37,7 +37,7 @@ const Login = () => {
 };
 
 const Wrapper = tw.div`
-    w-screen h-screen grid grid-cols-3 px-[10rem]
+    w-screen h-screen flex-center-center lg:grid grid-cols-1 lg:grid-cols-2 px-[1rem] sm:px-[5rem] lg:px-[10rem]
 `;
 
 export default Login;
