@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { FiPaperclip } from "react-icons/fi";
 import { IoIosSend } from "react-icons/io";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import authState from "../../../atoms/authState";
 import currentChatState from "../../../atoms/currentChatState";
+import newMsgState from "../../../atoms/newMsgState";
 import msgFunctions from "../../../functions/msgFunctions";
+import useSocket from "../../../hooks/useSocket";
 
 const Editor = () => {
   const [msg, setMsg] = useState("");
   const currentChat = useRecoilValue(currentChatState);
+  const {user} = useRecoilValue(authState);
+  const socket = useSocket()
+  const [newMsg,setNewMsg] = useRecoilState(newMsgState)
   const sendMsg = async (e) => {
-    await msgFunctions.sendMsg(e, msg, currentChat?._id, "Text", setMsg);
+    await msgFunctions.sendMsg(e, msg,user?._id, currentChat?._id, "Text", setMsg,socket,setNewMsg);
   };
   return (
     <div
