@@ -5,35 +5,19 @@ import msgFunctions from "../../../functions/msgFunctions";
 import Moment from "react-moment";
 import useSocket from "../../../hooks/useSocket";
 import authState from "../../../atoms/authState";
-import newMsgState from "../../../atoms/newMsgState";
 
 const ShowMessages = ({ parentHeight, scrollRef }) => {
   const [msgs, setMsgs] = useState([]);
   const {user} = useRecoilValue(authState);
   const currentChat = useRecoilValue(currentChatState);
-  const [incomingMessage,setIncomingMessage] = useState(null);
-  const newMsg = useRecoilValue(newMsgState)
   const socket = useSocket()
   useEffect(() => {
     async function fetch() {
       await msgFunctions.getMsgs(currentChat?._id, setMsgs);
     }
     fetch();
-  }, [currentChat,user,newMsg]);
-  useEffect(() => {
-	  socket?.current.on('getMessage',data=> {
-		  setIncomingMessage({
-			  createdAt: Date.now(),
-			  msg: data?.msg,
-			  msgType: data?.msgType,
-			  sender: data?.sender,
-			  reciever: currentChat?._id
-		  })
-	  })
-  },[socket])
-  useEffect(() => {
-	  incomingMessage && setMsgs(prev=> [...prev, incomingMessage])
-  },[incomingMessage, currentChat]);
+  }, [currentChat,user]);
+  
   return (
     <div
       id="show-messages"

@@ -4,20 +4,18 @@ import activeUsersState from "../../../atoms/activeUsersState";
 import currentChatState from "../../../atoms/currentChatState";
 import avatar from "../../../img/avatar.png";
 import {BiArrowBack} from 'react-icons/bi'
+import authState from "../../../atoms/authState";
 
 const MsgNavbar = ({flag,setFlag}) => {
   const currentChat = useRecoilValue(currentChatState);
   const activeUsers = useRecoilValue(activeUsersState);
+  const {user}  = useRecoilValue(authState);
   const [status, setStatus] = useState("Offline");
   useEffect(() => {
-    setStatus(
-      activeUsers?.find(
-        (activeUser) => activeUser?.user?._id === currentChat?._id
-      )
-        ? "Online"
-        : "Offline"
-    );
-  }, [activeUsers,currentChat]);
+	  const find = activeUsers?.find(e=> e?.user?._id === currentChat?._id)
+	  if(find)setStatus('Online');
+	  else setStatus('Offline');
+  }, [activeUsers,currentChat,user]);
   return (
     <>
     <div
