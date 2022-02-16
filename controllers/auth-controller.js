@@ -14,10 +14,7 @@ class AuthController{
         const expires = Date.now() + ttl;
         const data = `${phone}.${otp}.${expires}`;
         const hash = hashService.hashOtp(data);
-        if(process.env.NODE_ENV === 'production'){
-            await otpService.sendBySms(phone, otp);
-            res.status(200).json({ hash: `${hash}.${expires}`, phone });
-        }else res.status(200).json({ hash: `${hash}.${expires}`, phone, otp });
+        res.status(200).json({ hash: `${hash}.${expires}`, phone, otp });
     }
     async verifyOtp(req,res){
         const { otp, hash, phone, name } = req.body;
