@@ -13,6 +13,7 @@ const Before = (props) => {
     }
     await errorHandler(async ()=> {
       const { data } = await sendOtp({ phone });
+      console.log(data)
       setAuth((prev) => ({ ...prev, otp: data }));
       setFlag(true);
     },`client\src\pages\Login\Before.jsx`)

@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import currentChatState from "../../../atoms/currentChatState";
 import msgFunctions from "../../../functions/msgFunctions";
 import Moment from "react-moment";
 import authState from "../../../atoms/authState";
+import newMsgState from "../../../atoms/newMsgState"
 
-const ShowMessages = ({ parentHeight, scrollRef, msgs, setMsgs, socket }) => {
-  const {user} = useRecoilValue(authState);
+const ShowMessages = ({ parentHeight, scrollRef, msgs, setMsgs, socket, newMsgFlag, setNewMsgFlag}) => {
+  const { user } = useRecoilValue(authState);
   const currentChat = useRecoilValue(currentChatState);
-  const [flag,setFlag] = useState(false)
+  const [flag, setFlag] = useState(false)
   useEffect(() => {
     async function fetch() {
       await msgFunctions.getMsgs(currentChat?._id, setMsgs);
     }
     fetch();
-  }, [currentChat,user]);
+  }, [currentChat, user,newMsgFlag]);
   useEffect(() => {
-	  if(flag){
-		setMsgs(prev=> [...prev, flag])
-		setFlag(false)
-	  }
-  },[flag])
-  useEffect(() => {
-	  socket?.current?.on('rec-msg',data => {
-		setFlag(data)
-	  })
-  },[socket])
+    socket?.current?.on("rec-msg", (data) => {
+      // console.log(data)
+      setNewMsgFlag(prev=> !prev)
+    });
+  }, []);
   return (
     <div
       id="show-messages"

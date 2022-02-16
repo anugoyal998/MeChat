@@ -61,11 +61,8 @@ io.on('connection',socket=> {
 	})
 	// send msg
 	socket.on('send-msg',data=> {
-		console.log(data)
 		const recieverSocketId = getSocketIdFromUserID({id: data?.reciever})
-		console.log(recieverSocketId === id)
-		console.log(recieverSocketId)
-		io.to(recieverSocketId).emit('rec-msg',data)
+		io.to(recieverSocketId).emit('rec-msg',{data,time: Date.now()})
 	})
 	// disconnect
 	socket.on('disconnect',()=> {
