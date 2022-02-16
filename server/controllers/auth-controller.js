@@ -13,11 +13,8 @@ class AuthController{
         const ttl = 1000 * 60 * 10; // 10 min
         const expires = Date.now() + ttl;
         const data = `${phone}.${otp}.${expires}`;
-        const hash = hashService.hashOtp(data);
-        if(process.env.NODE_ENV === 'production'){
-            await otpService.sendBySms(phone, otp);
-            res.status(200).json({ hash: `${hash}.${expires}`, phone });
-        }else res.status(200).json({ hash: `${hash}.${expires}`, phone, otp });
+        const hash = hashService.hashOtp(data); 
+        res.status(200).json({ hash: `${hash}.${expires}`, phone, otp });
     }
     async verifyOtp(req,res){
         const { otp, hash, phone, name } = req.body;
