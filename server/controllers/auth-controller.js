@@ -29,7 +29,7 @@ class AuthController{
             return res.status(400).json({ msg: "Session Timeout" });
         }
         const data = `${phone}.${otp}.${expires}`;
-        const isValid = otpService.verifyOtp(hashedOtp, data)
+        const isValid = await otpService.verifyOtp(hashedOtp, data)
         if(!isValid) {
             return res.status(400).json({ msg: "Invalid Otp" });
         }
@@ -40,13 +40,15 @@ class AuthController{
         }
         const  {accessToken, refreshToken} = tokenService.generateTokens({_id: user._id, name, phone})
         await tokenService.storeRefreshToken(refreshToken,user._id)
-        res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
-        res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
-        res.status(200).json({user, auth: true})
+        // res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
+        // res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
+        res.status(200).json({user, auth: true, tokens: {at: accessToken, rt: refreshToken}})
     }
     async refresh(req, res) {
-        if(!req.cookies?.refreshToken)return res.status(400).json({ msg: "error" });  
-        const {refreshToken: refreshTokenFromCookie} = req.cookies
+        if(!req.body.rt){
+            return res.status(400).json({ msg: "error" });  
+        }
+        const {rt: refreshTokenFromCookie} = req.body
         const userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie)
         const token = await tokenService.findRefreshToken(userData._id,refreshTokenFromCookie)
         if(!token) {
@@ -58,9 +60,9 @@ class AuthController{
         }
         const {refreshToken,accessToken} = tokenService.generateTokens({_id: userData._id, name: user.name, phone: user.phone})
         await tokenService.updateRefreshToken(userData._id,refreshToken)
-        res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
-        res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
-        res.status(200).json({user, auth: true})
+        // res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
+        // res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
+        res.status(200).json({user, auth: true, tokens: {at: accessToken, rt: refreshToken}})
     }
     async updateAvatar(req, res){
         const user = req.user

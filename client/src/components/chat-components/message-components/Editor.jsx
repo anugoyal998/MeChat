@@ -34,13 +34,14 @@ const Editor = ({ msgs, setMsgs, socket, newMsgFlag, setNewMsgFlag }) => {
         style={{ width: "calc(100vw - 300px - 1.5rem)" }}
       >
         <div className="mx-5 bg-white h-16 rounded-xl py-3 px-5 flex justify-between space-x-3 items-center shadow-lg ">
-          <input
+          <textarea
             type="text"
             placeholder="Write your message..."
             className="w-full text-lg no-outline"
             value={msg}
             onChange={(e) => setMsg(e.target.value)}
             onKeyPress={sendMsg}
+            style={{resize: 'none'}}
           />
           <div className="flex items-center space-x-2">
             <div>

@@ -33,7 +33,7 @@ const Message = ({ flag, setFlag, socket, newMsgFlag, setNewMsgFlag }) => {
         className="h-screen py-3 hidden sm:inline-flex "
       >
         <div
-          className="w-full h-full bg-myGray2 rounded-lg overflow-y-scroll scrollbar-hide"
+          className="w-full h-full bg-myGray2 rounded-lg"
           id="message"
           ref={scrollRef}
         >

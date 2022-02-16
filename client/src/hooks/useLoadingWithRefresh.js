@@ -4,6 +4,7 @@ import { useState } from "react";
 import {useRecoilState} from 'recoil'
 import authState from '../atoms/authState'
 import { refreshToken } from "../http";
+import Cookies from 'js-cookie'
 
 export const useLoadingWithRefresh = ()=> {
     const [loading, setLoading] = useState(true);
@@ -19,6 +20,8 @@ export const useLoadingWithRefresh = ()=> {
                     phone: data?.user?.phone,
                     avatar: data?.user?.avatar
                 }}))
+                Cookies.set('at',data?.tokens?.at,{expires: 1})
+                Cookies.set('rt',data?.tokens?.rt,{expires: 7})
                 setLoading(false)
             } catch (error) {
                 console.log(error);

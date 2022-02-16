@@ -4,6 +4,7 @@ import Input from "../../components/Input";
 import { verifyOtp } from "../../http";
 import errorHandler from "../../utils/errorHandler";
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const After = (props) => {
   const { otp, setOtp, auth, setAuth, name } = props;
@@ -25,7 +26,10 @@ const After = (props) => {
           avatar: data?.user?.avatar
         },
       }));
+      Cookies.set('at', data?.tokens?.at, {expires: 1})
+      Cookies.set('rt', data?.tokens?.rt, {expires: 7})
       navigate("/chat");
+      window.location.reload()
     }, `client\src\pages\Login\After.jsx`);
   };
   return (
