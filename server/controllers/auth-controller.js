@@ -70,6 +70,21 @@ class AuthController{
         await userService.updateUser(user?._id,{avatar})
         res.status(200).json({auth: true})
     }
+    async updateName(req, res){
+        const user = req.user
+        const {name} = req.body
+        if(!user || !name){
+            return res.status(400).json({ msg: "error" }); 
+        }
+        await userService.updateUser(user?._id,{name})
+        res.status(200).json({auth: true})
+    }
+    async logout(req, res){
+        const {rt: refreshToken} = req.body
+        // delte refresh token from db
+        await tokenService.removeToken(refreshToken)
+        res.status(200).json({auth: true})
+    }
 }
 
 module.exports = new AuthController()

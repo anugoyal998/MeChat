@@ -56,7 +56,7 @@ const Message = ({ flag, setFlag, socket, newMsgFlag, setNewMsgFlag }) => {
           />
         </div>
       </div>
-      <div className="h-screen py-3 w-screen sm:hidden">
+      <div className="h-screen py-3 w-screen sm:hidden overflow-scroll scrollbar-hide ">
         <div
           className="w-full h-full bg-myGray2 rounded-lg overflow-y-scroll scrollbar-hide"
           id="message"

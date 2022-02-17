@@ -31,7 +31,7 @@ const Editor = ({ msgs, setMsgs, socket, newMsgFlag, setNewMsgFlag }) => {
     <>
       <div
         className="absolute bottom-[11px] pb-2 rounded-lg bg-myGray2 hidden sm:block"
-        style={{ width: "calc(100vw - 300px - 1.5rem)" }}
+        style={{ width: "calc(100vw - 300px - 0.9rem)" }}
       >
         <div className="mx-5 bg-white h-16 rounded-xl py-3 px-5 flex justify-between space-x-3 items-center shadow-lg ">
           <textarea
@@ -62,7 +62,7 @@ const Editor = ({ msgs, setMsgs, socket, newMsgFlag, setNewMsgFlag }) => {
         className="absolute bottom-[11px] pb-2 rounded-lg bg-myGray2 sm:hidden "
         style={{ width: "calc(100vw - 1.5rem)" }}
       >
-        <div className="mx-5 bg-white h-16 rounded-xl py-3 px-5 flex justify-between space-x-3 items-center shadow-lg ">
+        <div className="mx-2 sm:mx-5 bg-white h-16 rounded-xl py-3 px-5 flex justify-between space-x-3 items-center shadow-lg ">
           <input
             type="text"
             placeholder="Write your message..."

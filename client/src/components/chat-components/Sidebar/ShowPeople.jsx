@@ -1,24 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import allUsersState from "../../atoms/allUsersState";
-import authState from "../../atoms/authState";
-import img from "../../img/avatar.png";
-import { getAllUsers } from "../../http";
-import errorHandler from "../../utils/errorHandler";
-import currentChatState from "../../atoms/currentChatState";
+import allUsersState from "../../../atoms/allUsersState";
+import authState from "../../../atoms/authState";
+import currentChatState from "../../../atoms/currentChatState";
+import img from "../../../img/avatar.png";
+import { getAllUsers } from "../../../http";
+import errorHandler from "../../../utils/errorHandler";
 
 const ShowPeople = ({ search, setSearch, flag, setFlag }) => {
   const { user } = useRecoilValue(authState);
   const [users, setUsers] = useRecoilState(allUsersState);
+  const [usersCopy,setUsersCopy] = useState([])
   useEffect(() => {
     async function fetch() {
       await errorHandler(async () => {
         const { data } = await getAllUsers();
         setUsers(data?.users);
+        setUsersCopy(data?.users)
       }, `client\src\components\chat-components\ShowPeople.jsx`);
     }
     fetch();
   }, []);
+  useEffect(() => {
+    const data = usersCopy?.filter(e=> e?.name?.toLowerCase()?.includes(search?.toLowerCase()))
+    setUsers(data)
+  },[search])
   return (
     <div className="flex space-y-2 flex-col mt-2">
       {users?.map((p, index) => {

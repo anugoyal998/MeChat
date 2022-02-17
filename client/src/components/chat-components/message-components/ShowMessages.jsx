@@ -32,14 +32,15 @@ const ShowMessages = ({ parentHeight, scrollRef, msgs, setMsgs, socket, newMsgFl
   return (
     <div
       id="show-messages"
-      className={`mt-20 px-5 flex flex-col space-y-3 py-2 z-0 overflow-y-scroll scrollbar-hide`}
+      className={`mt-20 overflow-y-scroll scrollbar-hide`}
       style={{height: 'calc(100vh - 80px - 100px)'}}
       ref={ref}
     >
+      <div className="px-2 sm:px-5 flex flex-col space-y-3 py-2 z-0" id="msg-div" >
       {msgs?.map((msg, index) => {
         return <Card key={index} data={msg} currentChat={currentChat} />;
       })}
-      <div className="h-[70px] w-full"></div>
+      </div>
     </div>
   );
 };
@@ -52,7 +53,7 @@ const Card = ({ data, currentChat }) => {
       }`}
     >
       <div
-        className={`w-[90%] md:w-[60%] p-3 ${
+        className={`w-[95%] md:w-[60%] p-3 ${
           currentChat?._id === data?.reciever ? "bg-myGray3" : "bg-white"
         } rounded-xl shadow-sm cursor-pointer hover:opacity-80 animation`}
       >
