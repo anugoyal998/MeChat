@@ -13,7 +13,11 @@ class AuthController{
         const ttl = 1000 * 60 * 10; // 10 min
         const expires = Date.now() + ttl;
         const data = `${phone}.${otp}.${expires}`;
-        const hash = hashService.hashOtp(data);
+        const hash = hashService.hashOtp(data); 
+        if(process.env.NODE_ENV == 'production'){
+            await otpService.sendBySms(phone,otp)
+            return res.status(200).json({hash: `${hash}.${expires}`, phone});
+        }
         res.status(200).json({ hash: `${hash}.${expires}`, phone, otp });
     }
     async verifyOtp(req,res){
@@ -36,7 +40,7 @@ class AuthController{
             user = await userService.createUser({phone: phone, name})
         }
         const  {accessToken, refreshToken} = tokenService.generateTokens({_id: user._id, name, phone})
-        await tokenService.storeRefreshToken(refreshToken,user._id)
+        await tokenService.storeRefreshToken(refreshToken,user?._id)
         // res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
         // res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
         res.status(200).json({user, auth: true, tokens: {at: accessToken, rt: refreshToken}})
@@ -47,6 +51,9 @@ class AuthController{
         }
         const {rt: refreshTokenFromCookie} = req.body
         const userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie)
+        if(!userData){
+            return res.status(400).json({ msg: "error" });
+        }
         const token = await tokenService.findRefreshToken(userData._id,refreshTokenFromCookie)
         if(!token) {
             return res.status(400).json({ msg: "error" });  
@@ -55,7 +62,7 @@ class AuthController{
         if(!user){
             return res.status(400).json({ msg: "error" })
         }
-        const {refreshToken,accessToken} = tokenService.generateTokens({_id: userData._id, name: user.name, phone: user.phone})
+        const {refreshToken,accessToken} = tokenService.generateTokens({_id: userData._id, name: user.name, phone: user.phone, avatar: user?.avatar})
         await tokenService.updateRefreshToken(userData._id,refreshToken)
         // res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
         // res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
@@ -68,6 +75,21 @@ class AuthController{
             return res.status(400).json({ msg: "error" });  
         }
         await userService.updateUser(user?._id,{avatar})
+        res.status(200).json({auth: true})
+    }
+    async updateName(req, res){
+        const user = req.user
+        const {name} = req.body
+        if(!user || !name){
+            return res.status(400).json({ msg: "error" }); 
+        }
+        await userService.updateUser(user?._id,{name})
+        res.status(200).json({auth: true})
+    }
+    async logout(req, res){
+        const {rt: refreshToken} = req.body
+        // delte refresh token from db
+        await tokenService.removeToken(refreshToken)
         res.status(200).json({auth: true})
     }
 }
