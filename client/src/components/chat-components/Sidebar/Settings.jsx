@@ -14,21 +14,22 @@ const Settings = () => {
   }
   return (
     <div className="mt-5">
-      <HelperComp state={auth?.user?.name} setAuth={setAuth} />
+      <HelperComp state={auth?.user?.name} name="Name" setAuth={setAuth} edit={true} />
+      <HelperComp state={auth?.user?.email} name="Email" edit={false} />
       <button className="mt-10 bg-myBlueDark text-white font-semibold w-full py-2 rounded-lg text-lg" onClick={handleLogoutClick} >Logout</button>
     </div>
   );
 };
 
-const HelperComp = ({ state, setAuth }) => {
+const HelperComp = ({ state, setAuth, name, edit }) => {
   const [change, setChange] = useState(state);
   const [flag, setFlag] = useState(false);
   const handleTickClick = async ()=> {
     await handleNameChange(change,setAuth,setFlag)
   }
   return (
-    <div>
-      <p className="text-lg text-myBlueDark font-semibold">Your Name</p>
+    <div className="mt-2">
+      <p className="text-lg text-myBlueDark font-semibold">Your {name}</p>
       <div className="flex justify-between items-center px-3">
         <input
           id="change-input"
@@ -40,7 +41,7 @@ const HelperComp = ({ state, setAuth }) => {
         />
         {!flag ? (
           <div
-            className="cursor-pointer animation hover:scale-125"
+            className={`cursor-pointer animation hover:scale-125 ${!edit && "hidden"} `}
             onClick={()=> {
               setFlag(true);
               document.getElementById("change-input").focus();
@@ -50,7 +51,7 @@ const HelperComp = ({ state, setAuth }) => {
           </div>
         ) : (
           <div
-            className="cursor-pointer animation hover:scale-125"
+            className={`cursor-pointer animation hover:scale-125 ${!edit && "hidden"} `}
             onClick={handleTickClick}
           >
             <TiTick className="text-2xl" />

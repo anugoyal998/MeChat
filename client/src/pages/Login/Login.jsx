@@ -9,7 +9,7 @@ import After from "./After";
 const Login = () => {
   const [auth, setAuth] = useRecoilState(authState);
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [flag, setFlag] = useState(false);
   const [otp, setOtp] = useState("");
   return (
@@ -25,8 +25,8 @@ const Login = () => {
         <Before
           name={name}
           setName={setName}
-          phone={phone}
-          setPhone={setPhone}
+          email={email}
+          setEmail={setEmail}
           setAuth={setAuth}
           setFlag={setFlag}
         />

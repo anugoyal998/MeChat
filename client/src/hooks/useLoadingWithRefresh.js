@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import {useRecoilState} from 'recoil'
@@ -9,7 +8,6 @@ import Cookies from 'js-cookie'
 export const useLoadingWithRefresh = ()=> {
     const [loading, setLoading] = useState(true);
     const [auth,setAuth] = useRecoilState(authState)
-    const url = process.env.REACT_APP_API_URL || "http://localhost:5000";
     useEffect(()=> {
         (async ()=> {
             try {
@@ -17,7 +15,7 @@ export const useLoadingWithRefresh = ()=> {
                 setAuth(prev=> ({...prev, user: {
                     _id: data?.user?._id,
                     name: data?.user?.name,
-                    phone: data?.user?.phone,
+                    email: data?.user?.email,
                     avatar: data?.user?.avatar
                 }}))
                 Cookies.set('at',data?.tokens?.at,{expires: 1})

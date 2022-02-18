@@ -43,7 +43,7 @@ const Card = (props) => {
   }
   return (
     <div
-      className="flex justify-between p-3 cursor-pointer hover:bg-hoverBg rounded-lg border shadow-sm"
+      className={`flex justify-between p-3 cursor-pointer ${currentChat?._id === data?._id && "bg-hoverBg"} hover:bg-hoverBg rounded-lg border shadow-sm`}
       onClick={handleClick}
     >
       <div className="flex items-center space-x-2">

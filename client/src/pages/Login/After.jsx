@@ -8,21 +8,21 @@ import Cookies from 'js-cookie';
 
 const After = (props) => {
   const { otp, setOtp, auth, setAuth, name } = props;
-  const { phone, hash } = auth?.otp;
+  const { email, hash } = auth?.otp;
   const navigate = useNavigate();
   const handleLoginClick = async () => {
-    if (!phone || !hash || !otp) {
+    if (!email || !hash || !otp) {
       alert("Error");
       return;
     }
     await errorHandler(async () => {
-      const { data } = await verifyOtp({ otp, phone, hash, name });
+      const { data } = await verifyOtp({ otp, email, hash, name });
       setAuth((prev) => ({
         ...prev,
         user: {
           _id: data?.user?._id,
           name: data?.user?.name,
-          phone: data?.user?.phone,
+          email: data?.user?.email,
           avatar: data?.user?.avatar
         },
       }));

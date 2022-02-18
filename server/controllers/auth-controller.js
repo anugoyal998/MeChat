@@ -5,41 +5,43 @@ const tokenService = require("../services/token-service");
 
 class AuthController{
     async sendOtp(req, res){
-        const {phone} = req.body
-        if (!phone) {
+        const {email} = req.body
+        if (!email) {
             return res.status(400).json({ msg: "error" });
         }
         const otp = await otpService.generateOtp();
         const ttl = 1000 * 60 * 10; // 10 min
         const expires = Date.now() + ttl;
-        const data = `${phone}.${otp}.${expires}`;
+        const data = `${email}.${otp}.${expires}`;
         const hash = hashService.hashOtp(data); 
         if(process.env.NODE_ENV == 'production'){
-            await otpService.sendBySms(phone,otp)
-            return res.status(200).json({hash: `${hash}.${expires}`, phone});
+            await otpService.sendByEmail(email,otp)
+            return res.status(200).json({hash: `${hash}.${expires}`, email});
         }
-        res.status(200).json({ hash: `${hash}.${expires}`, phone, otp });
+        await otpService.sendByEmail(email,otp)
+        return res.status(200).json({hash: `${hash}.${expires}`, email});
+        res.status(200).json({ hash: `${hash}.${expires}`, email, otp });
     }
     async verifyOtp(req,res){
-        const { otp, hash, phone, name } = req.body;
-        if (!otp || !hash || !phone || !name){
+        const { otp, hash, email, name } = req.body;
+        if (!otp || !hash || !email || !name){
             return res.status(400).json({ msg: "error" });
         }
         const [hashedOtp, expires] = hash.split(".");
         if (Date.now() > +expires) {
             return res.status(400).json({ msg: "Session Timeout" });
         }
-        const data = `${phone}.${otp}.${expires}`;
+        const data = `${email}.${otp}.${expires}`;
         const isValid = await otpService.verifyOtp(hashedOtp, data)
         if(!isValid) {
             return res.status(400).json({ msg: "Invalid Otp" });
         }
         let user;
-        user = await userService.findUser({phone: phone})
+        user = await userService.findUser({email: email})
         if(!user){
-            user = await userService.createUser({phone: phone, name})
+            user = await userService.createUser({email: email, name})
         }
-        const  {accessToken, refreshToken} = tokenService.generateTokens({_id: user._id, name, phone})
+        const  {accessToken, refreshToken} = tokenService.generateTokens({_id: user._id, name, email})
         await tokenService.storeRefreshToken(refreshToken,user?._id)
         // res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
         // res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})
@@ -54,7 +56,7 @@ class AuthController{
         if(!userData){
             return res.status(400).json({ msg: "error" });
         }
-        const token = await tokenService.findRefreshToken(userData._id,refreshTokenFromCookie)
+        const token = await tokenService.findRefreshToken(userData._id)
         if(!token) {
             return res.status(400).json({ msg: "error" });  
         }
@@ -62,7 +64,7 @@ class AuthController{
         if(!user){
             return res.status(400).json({ msg: "error" })
         }
-        const {refreshToken,accessToken} = tokenService.generateTokens({_id: userData._id, name: user.name, phone: user.phone, avatar: user?.avatar})
+        const {refreshToken,accessToken} = tokenService.generateTokens({_id: userData._id, name: user.name, email: user.email, avatar: user?.avatar})
         await tokenService.updateRefreshToken(userData._id,refreshToken)
         // res.cookie('refreshToken',refreshToken,{maxAge: 1000*60*60*24*7, httpOnly: true})
         // res.cookie('accessToken',accessToken,{maxAge: 1000*60*60, httpOnly: true})

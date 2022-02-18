@@ -5,14 +5,14 @@ import Input from "../../components/Input";
 import errorHandler from "../../utils/errorHandler";
 
 const Before = (props) => {
-  const { name, setName, phone, setPhone, setAuth, setFlag } = props;
+  const { name, setName, email, setEmail, setAuth, setFlag } = props;
   const handleLoginClick = async () => {
-    if (!name || !phone) {
+    if (!name || !email) {
       alert("All fields are required");
       return;
     }
     await errorHandler(async ()=> {
-      const { data } = await sendOtp({ phone });
+      const { data } = await sendOtp({ email });
       console.log(data)
       setAuth((prev) => ({ ...prev, otp: data }));
       setFlag(true);
@@ -30,16 +30,16 @@ const Before = (props) => {
         margin="true"
       />
       <Input
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-        type="tel"
-        placeholder="Phone"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        placeholder="Email"
         margin="true"
         classes="mt-5"
       />
-      <div className="flex justify-end w-full">
+      {/* <div className="flex justify-end w-full">
         <FPText>Forgot Password?</FPText>
-      </div>
+      </div> */}
       <LoginButton onClick={handleLoginClick}>Login</LoginButton>
     </div>
   );
