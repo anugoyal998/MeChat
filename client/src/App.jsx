@@ -27,6 +27,7 @@ const App = () => {
       setActiveUsers(data);
     });
   }, [socket, auth, loading]);
+  console.log(auth)
   return (
     <>
       <Router>

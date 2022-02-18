@@ -5,9 +5,9 @@ const Schema = mongoose.Schema;
 
 const refreshSchema = Schema({
     token: {type: String, required: true},
-    userId: {type: Schema.Types.ObjectId, ref: 'User'},
+    userId: {type: String, ref: 'User'},
 },{
     timestamps: true
 })
 
-module.exports = mongoose.model('refresh',refreshSchema,'tokens')
+module.exports = mongoose.model('refresh',refreshSchema)
