@@ -11,7 +11,11 @@ class TokenService{
         return {accessToken, refreshToken}
     }
     async storeRefreshToken(token,userId){
-        await refreshModel.create({token,userId})
+        const res = await refreshModel.findOne({userId})
+        if(res){
+            return await refreshModel.updateOne({userId},{token})
+        }
+        return await refreshModel.create({token,userId})
     }
     async verifyAccessToken(token){
         return jwt.verify(token,accessTokenSecret)
@@ -19,8 +23,8 @@ class TokenService{
     async verifyRefreshToken(refreshToken){
         return jwt.verify(refreshToken,refreshTokenSecret)
     }
-    async findRefreshToken(userId,refreshToken){
-        return await refreshModel.findOne({userId: userId, token: refreshToken})
+    async findRefreshToken(userId){
+        return await refreshModel.findOne({userId: userId})
     }
     async updateRefreshToken(userId,refreshToken){
         return await refreshModel.updateOne({userId: userId},{token: refreshToken})
