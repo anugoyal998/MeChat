@@ -4,6 +4,17 @@ const userService = require("../services/user-service");
 const tokenService = require("../services/token-service");
 
 class AuthController{
+    async saveUser(req, res){
+        const {name,email,avatar} = req.body;
+        let user;
+        user = await userService.findUser({email: email})
+        if(!user){
+            user = await userService.createUser({email: email, name})
+        }
+        const {accessToken, refreshToken} = tokenService.generateTokens({_id: user._id, name, email, avatar})
+        await tokenService.storeRefreshToken(refreshToken,user?._id)
+        res.status(200).json({user, auth: true, tokens: {at: accessToken, rt: refreshToken}})
+    }
     async sendOtp(req, res){
         const {email} = req.body
         if (!email) {
@@ -14,13 +25,8 @@ class AuthController{
         const expires = Date.now() + ttl;
         const data = `${email}.${otp}.${expires}`;
         const hash = hashService.hashOtp(data); 
-        if(process.env.NODE_ENV == 'production'){
-            await otpService.sendByEmail(email,otp)
-            return res.status(200).json({hash: `${hash}.${expires}`, email});
-        }
         await otpService.sendByEmail(email,otp)
         return res.status(200).json({hash: `${hash}.${expires}`, email});
-        res.status(200).json({ hash: `${hash}.${expires}`, email, otp });
     }
     async verifyOtp(req,res){
         const { otp, hash, email, name } = req.body;

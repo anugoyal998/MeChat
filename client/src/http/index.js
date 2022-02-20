@@ -12,6 +12,7 @@ const api = axios.create({
 const at = Cookies.get('at')
 const rt = Cookies.get('rt')
 
+export const saveUser = (data)=> api.post('/api/saveUser', data)
 export const sendOtp = (data) => api.post(`/api/send-otp`,data)
 export const verifyOtp = (data) => api.post(`/api/verify-otp`,data)
 export const refreshToken = ()=> rt && Cookies.get('rt') && api.post(`/api/refresh`,{at,rt})

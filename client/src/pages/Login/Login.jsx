@@ -1,43 +1,41 @@
-import React, { useState } from "react";
-import tw from "tailwind-styled-components";
-import { useRecoilState } from "recoil";
-import authState from "../../atoms/authState";
-import loginVector from "../../img/login.png";
-import Before from "./Before";
-import After from "./After";
+import React from 'react'
+import GoogleLogin from "react-google-login";
+import { loginFailure, loginSuccess } from '../../functions/auth/auth';
+import loginVector from '../../img/login-copy.png'
+import logo from '../../img/logo-lg.png'
+import {useRecoilState} from 'recoil'
+import authState from '../../atoms/authState'
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [auth, setAuth] = useRecoilState(authState);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [flag, setFlag] = useState(false);
-  const [otp, setOtp] = useState("");
+    const [auth,setAuth] = useRecoilState(authState);
+    const navigate = useNavigate();
+    const handleLoginSuccess = async (res)=> {
+        await loginSuccess(res,setAuth, navigate)
+    }
   return (
-    <Wrapper>
-      <div className="flex-center-center">
+    <div className="flex w-screen h-screen">
+        <div
+          className="flex justify-center items-center flex-col bg-white w-[50vw] h-screen"
+        >
+          <img src={logo} alt="" />
+          <p className="text-gray-900 font-semibold text-4xl">Welcome back!!</p>
+          <GoogleLogin
+            clientId={`${process.env.REACT_APP_GCID}`}
+            buttonText="Login with Google"
+            onSuccess={handleLoginSuccess}
+            onFailure={loginFailure}
+            cookiePolicy={"single_host_origin"}
+            className="w-[300px] my-2"
+          />
+        </div>
         <img
           src={loginVector}
-          alt="loginVector"
-          className="hidden lg:block"
+          alt=""
+          className="w-[50vw] h-screen"
         />
       </div>
-      {!flag && (
-        <Before
-          name={name}
-          setName={setName}
-          email={email}
-          setEmail={setEmail}
-          setAuth={setAuth}
-          setFlag={setFlag}
-        />
-      )}
-      {flag && <After otp={otp} setOtp={setOtp} auth={auth} setAuth={setAuth} name={name} />}
-    </Wrapper>
-  );
-};
+  )
+}
 
-const Wrapper = tw.div`
-    w-screen h-screen flex-center-center lg:grid grid-cols-1 lg:grid-cols-2 px-[1rem] sm:px-[5rem] lg:px-[10rem]
-`;
-
-export default Login;
+export default Login
