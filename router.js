@@ -8,6 +8,7 @@ const use = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next)
 }
 
+router.post('/api/saveUser',use(authController.saveUser))
 router.post('/api/send-otp',use(authController.sendOtp))
 router.post('/api/verify-otp',use(authController.verifyOtp))
 router.post('/api/refresh',use(authController.refresh))
