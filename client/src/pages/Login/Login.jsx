@@ -16,7 +16,7 @@ const Login = () => {
   return (
     <div className="flex w-screen h-screen">
         <div
-          className="flex justify-center items-center flex-col bg-white w-[50vw] h-screen"
+          className="flex justify-center items-center flex-col bg-white w-[100vw] md:w-[50vw] h-screen"
         >
           <img src={logo} alt="" />
           <p className="text-gray-900 font-semibold text-4xl">Welcome back!!</p>
@@ -32,7 +32,7 @@ const Login = () => {
         <img
           src={loginVector}
           alt=""
-          className="w-[50vw] h-screen"
+          className="w-[50vw] h-screen hidden md:block "
         />
       </div>
   )
