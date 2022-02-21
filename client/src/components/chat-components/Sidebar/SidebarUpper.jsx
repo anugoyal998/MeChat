@@ -14,7 +14,7 @@ const SidebarUpper = ({ search, setSearch, settingFlag, setSettingFlag }) => {
       <img src={logo} alt="logo" className="w-44 cursor-pointer" />
       <hr />
       <SettingBtn settingFlag={settingFlag} setSettingFlag={setSettingFlag} />
-      <Profile settingFlag={settingFlag} />
+      <Profile settingFlag={settingFlag} search={search} setSearch={setSearch} />
       <AddPeople hidden={settingFlag && "true"} search={search} setSearch={setSearch} />
     </div>
   );

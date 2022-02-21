@@ -16,11 +16,13 @@ const Profile = ({ settingFlag, search, setSearch }) => {
   return (
     <div className="flex-center-center flex-col">
       <label htmlFor="avatar-upload">
-        <img
-          src={user?.avatar ? user?.avatar : avatar}
-          alt="avatar"
-          className="w-32 rounded-full h-32 cursor-pointer"
-        />
+        <div className="flex-center-center">
+          <img
+            src={user?.avatar ? user?.avatar : avatar}
+            alt="avatar"
+            className="w-32 rounded-full h-32 cursor-pointer"
+          />
+        </div>
       </label>
       <input
         type="file"
