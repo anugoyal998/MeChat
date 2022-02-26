@@ -1,5 +1,13 @@
-# MeChat
-<img src="md-img/logo-lg.png">  
+<h1 align="center"> <a href="https://github.com/anugoyal998/MeChat"><strong> ✨ MeChat ✨</strong></a></h1>
+<div align="center">
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)  ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)  ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)  ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)  ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+
+<div>
+
+<div align="start">
+
+<img src="md-img/logo-lg.png">
 
 **MeChat**, A Realtime chat application with cool UI, and Realtime messaging.
 
@@ -87,3 +95,4 @@ You will also see any errors or information in the console
 <img src="md-img/home-mobile.png">
 <img src="md-img/chat-mobile.png">
 
+</div>
