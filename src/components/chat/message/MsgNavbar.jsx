@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import {activeUsersState,currentChatState,authState} from "../../../atoms";
-import avatar from "../../../img/avatar.png";
 import {BiArrowBack} from 'react-icons/bi'
 
 const MsgNavbar = ({flag,setFlag}) => {
@@ -21,7 +20,7 @@ const MsgNavbar = ({flag,setFlag}) => {
       style={{ width: "calc(100vw - 300px - 0.75rem)" }}
     >
       <img
-        src={currentChat?.avatar ? currentChat.avatar : avatar}
+        src={currentChat?.avatar ? currentChat.avatar : "https://cdn-icons-png.flaticon.com/512/147/147144.png"}
         alt="avatar"
         className="w-14 h-14 rounded-full cursor-pointer"
       />

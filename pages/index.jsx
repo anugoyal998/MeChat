@@ -75,9 +75,9 @@ export default function Home() {
       </Head>
       <div className="w-screen h-screen bg-myGray2 flex items-center justify-center">
         <Toaster />
-        <div className="min-w-[700px] min-h-[500px] bg-white rounded-lg shadow-2xl boxShadow flex justify-center items-center flex-col px-40">
+        <div className="sm:min-w-[500px] md:min-w-[700px] min-h-[500px] bg-white rounded-lg shadow-2xl boxShadow flex justify-center items-center flex-col px-10 sm:px-28 md:px-40">
           <Image alt="logo" src={logo} />
-          <p className="text-xl font-semibold pb-6">Welcome back!!</p>
+          <p className="text-xl font-semibold pb-2">Welcome back!!</p>
           <button
             className="w-full px-4 py-[0.4rem] border-2 border-black rounded-3xl flex justify-center items-center space-x-2"
             onClick={handleGoogleLogin}
@@ -85,7 +85,7 @@ export default function Home() {
             <FcGoogle className="text-xl" />
             <span>Login with Google</span>
           </button>
-          <span className="my-4 w-8 h-8 rounded-full border-2 border-black flex justify-center items-center">
+          <span className="my-2 w-8 h-8 rounded-full border-2 border-black flex justify-center items-center">
             Or
           </span>
           <div className="w-full flex justify-center items-center flex-col space-y-3">
