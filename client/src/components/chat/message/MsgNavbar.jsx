@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import activeUsersState from "../../../atoms/activeUsersState";
-import currentChatState from "../../../atoms/currentChatState";
+import {activeUsersState,currentChatState,authState} from "../../../atoms";
 import avatar from "../../../img/avatar.png";
 import {BiArrowBack} from 'react-icons/bi'
-import authState from "../../../atoms/authState";
 
 const MsgNavbar = ({flag,setFlag}) => {
   const currentChat = useRecoilValue(currentChatState);

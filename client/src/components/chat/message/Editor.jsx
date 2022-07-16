@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { FiPaperclip } from "react-icons/fi";
 import { IoIosSend } from "react-icons/io";
 import { useRecoilState, useRecoilValue } from "recoil";
-import authState from "../../../atoms/authState";
-import currentChatState from "../../../atoms/currentChatState";
-import newMsgState from "../../../atoms/newMsgState";
+import {
+  authState,
+  currentChatState,
+  newMsgState,
+} from "../../../atoms";
 import msgFunctions from "../../../functions/msgFunctions";
 import useSocket from "../../../hooks/useSocket";
 
@@ -41,7 +43,7 @@ const Editor = ({ msgs, setMsgs, socket, newMsgFlag, setNewMsgFlag }) => {
             value={msg}
             onChange={(e) => setMsg(e.target.value)}
             onKeyPress={sendMsg}
-            style={{resize: 'none'}}
+            style={{ resize: "none" }}
           />
           <div className="flex items-center space-x-2">
             <div>

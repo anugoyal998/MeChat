@@ -1,8 +1,8 @@
-const { atom } = require("recoil");
+import { atom } from "recoil";
 
 const socketState = atom({
-    key: "socketState",
-    default: null
-})
+  key: "socketState",
+  default: null,
+});
 
-export default socketState
+export default socketState;

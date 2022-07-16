@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Message from "../../components/chat-components/message-components/Message";
-import Sidebar from "../../components/chat-components/Sidebar/Sidebar";
+import Message from "../components/chat/message/Message";
+import Sidebar from "../components/chat/sidebar/Sidebar";
 
 const Chat = ({ socket, newMsgFlag, setNewMsgFlag }) => {
   const [flag, setFlag] = useState(false);

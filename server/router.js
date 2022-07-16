@@ -9,8 +9,7 @@ const use = (fn) => (req, res, next) => {
 }
 
 router.post('/api/saveUser',use(authController.saveUser))
-router.post('/api/send-otp',use(authController.sendOtp))
-router.post('/api/verify-otp',use(authController.verifyOtp))
+router.post('/api/saveUserEmailAndPassword',use(authController.saveUserEmailAndPassword))
 router.post('/api/refresh',use(authController.refresh))
 router.post('/api/update-avatar',authMiddleware,use(authController.updateAvatar))
 router.post('/api/update-name',authMiddleware,use(authController.updateName))

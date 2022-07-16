@@ -2,9 +2,8 @@ import React from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 import authState from "../../../atoms/authState";
-import { handleAvatarChange } from "../../../functions/sidebar/updateUser";
-import PrimaryBtn from "../../PrimaryBtn";
-import Searchbar from "../../Searchbar";
+import { handleAvatarChange } from "../../../functions/updateUser";
+import { PrimaryBtn, Searchbar } from "../../common";
 import avatar from "../../../img/avatar.png";
 
 const Profile = ({ settingFlag, search, setSearch }) => {
@@ -20,7 +19,7 @@ const Profile = ({ settingFlag, search, setSearch }) => {
           <img
             src={user?.avatar ? user?.avatar : avatar}
             alt="avatar"
-            className="w-32 rounded-full h-32 cursor-pointer"
+            className="w-32 rounded-full h-32 cursor-pointer border"
           />
         </div>
       </label>

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import authState from "../../../atoms/authState";
-import currentChatState from "../../../atoms/currentChatState";
+import { authState, currentChatState } from "../../../atoms";
 import { getAllUsers } from "../../../http";
 import errorHandler from "../../../utils/errorHandler";
 import Editor from "./Editor";
@@ -82,7 +81,7 @@ const Message = ({ flag, setFlag, socket, newMsgFlag, setNewMsgFlag }) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Message;
+export default Message

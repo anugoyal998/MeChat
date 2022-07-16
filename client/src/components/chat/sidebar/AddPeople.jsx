@@ -1,7 +1,7 @@
 import React from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
-import PrimaryBtn from "../../PrimaryBtn";
+import { PrimaryBtn } from "../../common";
 
 const AddPeople = (props) => {
   if (props?.hidden) return null;

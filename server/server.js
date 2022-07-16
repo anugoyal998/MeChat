@@ -69,7 +69,7 @@ io.on('connection',socket=> {
 
 /****  Socket.io   ****/
 
-//listen app
+// listen app
 server.listen(PORT, () => {
 	console.log(`listening on ${PORT}`);
 });

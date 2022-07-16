@@ -1,6 +1,6 @@
-import { logout, updateAvatar, updateName } from "../../http";
-import errorHandler from "../../utils/errorHandler";
-import cloudinary from "../cloudinary";
+import { logout, updateAvatar, updateName } from "../http";
+import errorHandler from "../utils/errorHandler";
+import cloudinary from "./cloudinary";
 import Cookies from 'js-cookie'
 
 export const handleAvatarChange = async (e,setAuth) => {

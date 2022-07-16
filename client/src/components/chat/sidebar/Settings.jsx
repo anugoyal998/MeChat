@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { FaPencilAlt } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import authState from "../../../atoms/authState";
-import { handleLogout, handleNameChange } from "../../../functions/sidebar/updateUser";
+import { handleLogout, handleNameChange } from "../../../functions/updateUser";
 
 const Settings = () => {
   const [auth,setAuth] = useRecoilState(authState);

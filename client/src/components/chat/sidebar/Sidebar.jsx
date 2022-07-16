@@ -22,7 +22,7 @@ const Sidebar = ({ flag, setFlag }) => {
           setFlag={setFlag}
         />
       )}
-      {settingFlag && <Settings/>}
+      {settingFlag && <Settings />}
     </div>
   );
 };

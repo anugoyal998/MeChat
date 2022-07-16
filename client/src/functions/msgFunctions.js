@@ -15,7 +15,7 @@ class MsgFunctions {
       }, `client\src\components\chat-components\message-components\Editor.jsx`);
     }
   }
-  async getMsgs(reciever, setMsgs) {
+  async getMsgs(reciever, setMsgs, setFlag) {
     await errorHandler(async () => {
       const { data } = await getMsgs({ reciever });
       let msgs = data?.msgs;
@@ -27,6 +27,7 @@ class MsgFunctions {
         return 0;
       });
       setMsgs(msgs);
+      setFlag(false)
     }, `client\src\components\chat-components\message-components\ShowMessages.jsx`);
   }
 }
