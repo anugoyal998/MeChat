@@ -17,7 +17,7 @@
 * Google Login
 * Edit profile
 
-Website Link: [MeChat](https://chat-app-sandy-eta.vercel.app/)
+Website Link: [Me Chat](https://chat-app-sandy-eta.vercel.app/)
 
 
 ### Tech Stack
