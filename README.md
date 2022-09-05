@@ -29,6 +29,9 @@ Website Link: [Me Chat](https://chat-app-sandy-eta.vercel.app/)
 * Nodejs/Expressjs
 * MongoDB
 * Socket.io
+  
+### Flow Diagram  
+<img src="md-img/MeChat.png">
 
 ### Client Side
 #### `npm install`
