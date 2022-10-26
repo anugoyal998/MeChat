@@ -10,7 +10,7 @@ export const useAuth = () => {
   useEffect(() => {
     (async () => {
       try {
-        const url = process.env.REACT_APP_SERVER || "http://localhost:5000";
+        const url = import.meta.env.VITE_SERVER || "http://localhost:5000";
         const { data } = await axios.post(`${url}/api/refresh`, {
           rt: refreshToken,
         });

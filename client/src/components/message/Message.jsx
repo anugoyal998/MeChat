@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { myActiveUsers, myAuth, myCurrentChat } from "../../states";
-import { getAllUsers } from "../../http";
+import { getAllUsers } from "../../api";
 import MsgNavbar from "./MsgNavbar";
 import io from "socket.io-client";
 import Editor from "./Editor";
@@ -31,7 +31,7 @@ const Message = ({ flag, setFlag }) => {
   const setActiveUsers = myActiveUsers((state) => state.setActiveUsers);
 
   useEffect(() => {
-    const s = io(process.env.REACT_APP_SERVER || "http://localhost:5000");
+    const s = io(import.meta.env.VITE_SERVER || "http://localhost:5000");
     setSocket(s);
     return () => {
       s.disconnect();

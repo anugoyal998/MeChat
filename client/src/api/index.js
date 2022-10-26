@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 import Cookies from "js-cookie";
 
 const at = Cookies.get("accessToken");
 const rt = Cookies.get("refreshToken");
 
-const url = process.env.REACT_APP_SERVER || "http://localhost:5000";
+const url = import.meta.env.VITE_SERVER || "http://localhost:5000";
 
 
 export const login = (data) => axios.post(`${url}/api/login`, data);

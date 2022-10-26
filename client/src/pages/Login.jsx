@@ -1,16 +1,16 @@
-import React from "react";
-import vector from "../img/login-copy.png";
-import logo from "../img/logo-lg.png";
-import GoogleButton from "react-google-button";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import React, { useState } from "react";
+import vector from "../assets/login.png";
 import { auth as googleAuth } from "../firebase";
-import { login } from "../http";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { login } from "../api";
 import Cookies from "js-cookie";
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const googleProvider = new GoogleAuthProvider();
   const handleClick = () => {
     signInWithPopup(googleAuth, googleProvider).then(async (response) => {
+      setLoading((prev) => true);
       const user = {
         name: response?.user?.displayName,
         email: response?.user?.email,
@@ -18,23 +18,33 @@ const Login = () => {
       };
       try {
         const { data } = await login(user);
+        setLoading((prev) => false);
         Cookies.set("accessToken", data?.tokens?.at);
         Cookies.set("refreshToken", data?.tokens?.rt);
         window.location.reload();
       } catch (error) {
+        setLoading((prev) => false);
         console.log(error);
         alert("Error");
       }
     });
   };
   return (
-    <div className="flex w-screen h-screen">
-      <div className="flex justify-center items-center flex-col bg-white w-[100vw] md:w-[50vw] h-screen">
-        <img src={logo} alt="" />
-        <p className="text-gray-900 font-semibold text-4xl">Welcome back!!</p>
-        <GoogleButton onClick={handleClick} />
+    <div className="w-screen h-screen bg-[#FDFDFD] flex justify-center items-center p-3">
+      <div className="sm:w-[500px] bg-white border p-4 rounded-md shadow-md flex justify-center items-center flex-col">
+        <img src={vector} alt="hey" className="" />
+        <p className="my-2 font-semibold text-xl text-center">
+          Login to continue...
+        </p>
+        <button
+          onClick={handleClick}
+          className={`border w-full py-2 text-white bg-myBlueDark font-semibold rounded-md hover:opacity-80 animation ${
+            loading && "cursor-not-allowed"
+          } outline-none`}
+        >
+          Login with Google
+        </button>
       </div>
-      <img src={vector} alt="" className="w-[50vw] h-screen hidden md:block " />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { FiSettings } from "react-icons/fi";
 import { FaPencilAlt } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
-import { logout, updateName } from "../../http";
+import { logout, updateName } from "../../api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 

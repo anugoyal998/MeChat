@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { getMsgs } from "../../http";
+import { getMsgs } from "../../api";
 import { myAuth, myCurrentChat } from "../../states";
 import TimeAgo from 'react-timeago'
 

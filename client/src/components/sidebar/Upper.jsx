@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../img/logo-lg.png";
+import logo from "../../assets/logo-lg.png";
 import { myAuth } from "../../states";
 
 import { SettingBtn } from "./Setting";

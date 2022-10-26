@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { allUsers, myAuth, myCurrentChat } from "../../states";
-import { getAllUsers } from '../../http'
+import { getAllUsers } from '../../api'
 
 const ShowPeople = ({ search, setSearch, flag, setFlag }) => {
   const user = myAuth((state) => state.auth.user)

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FiPaperclip } from "react-icons/fi";
 import { IoIosSend } from "react-icons/io";
 import { myAuth, myCurrentChat } from "../../states";
-import { sendMsg as sendMSG } from '../../http'
+import { sendMsg as sendMSG } from '../../api'
 
 const Editor = ({ msgs, setMsgs, socket }) => {
   const [msg, setMsg] = useState("");
