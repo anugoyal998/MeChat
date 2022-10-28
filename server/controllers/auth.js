@@ -36,7 +36,7 @@ class AuthController {
     }
     try {
       const { rt: refreshTokenFromCookie } = req.body;
-      const userData = await TokenService.verifyRefreshToken(
+      const userData = TokenService.verifyRefreshToken(
         refreshTokenFromCookie
       );
 

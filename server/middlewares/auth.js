@@ -3,10 +3,11 @@ const tokenService = require("../services/tokenService")
 module.exports = async (req, res, next) => {
     try {
         const {at: accessToken} = req.body
+        console.log(accessToken)
         if(!accessToken){
             throw new Error()
         }
-        const userData = await tokenService.verifyAccessToken(accessToken)
+        const userData = tokenService.verifyAccessToken(accessToken)
         if(!userData){
             throw new Error()
         }

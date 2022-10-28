@@ -5,8 +5,16 @@ const refreshModel = require("../model/refresh")
 
 class TokenService{
     generateTokens(payload){
-        const accessToken = jwt.sign(payload,accessTokenSecret,{expiresIn: '1d'})
-        const refreshToken = jwt.sign(payload,refreshTokenSecret,{expiresIn: '7d'})
+        let accessToken;
+        let refreshToken;
+        jwt.sign(payload,accessTokenSecret,{expiresIn: '1d'},(err,token)=> {
+            if(err)return null;
+            accessToken = token;
+        })
+        jwt.sign(payload,refreshTokenSecret,{expiresIn: '7d'},(err,token)=> {
+            if(err)return null;
+            refreshToken = token;
+        })
         return {accessToken, refreshToken}
     }
     async storeRefreshToken(token,userId){
@@ -16,11 +24,21 @@ class TokenService{
         }
         return await refreshModel.create({token,userId})
     }
-    async verifyAccessToken(token){
-        return jwt.verify(token,accessTokenSecret)
+    verifyAccessToken(token){
+        let data;
+        jwt.verify(token,accessTokenSecret,(err,decoded)=> {
+            if(err)return null;
+            data = decoded;
+        })
+        return data;
     }
-    async verifyRefreshToken(refreshToken){
-        return jwt.verify(refreshToken,refreshTokenSecret)
+    verifyRefreshToken(refreshToken){
+        let data;
+        jwt.verify(refreshToken,refreshTokenSecret,(err,decoded)=> {
+            if(err)return null;
+            data = decoded;
+        })
+        return data;
     }
     async findRefreshToken(userId){
         return await refreshModel.findOne({userId: userId})
