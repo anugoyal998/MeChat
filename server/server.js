@@ -51,8 +51,8 @@ io.on('connection',socket=> {
 	})
 	// send msg
 	socket.on('send-msg',data=> {
-		const recieverSocketId = getSocketIdFromUserID({id: data?.reciever})
-		io.to(recieverSocketId).emit('rec-msg',{data,time: Date.now()})
+		// const recieverSocketId = getSocketIdFromUserID({id: data?.reciever})
+		io.emit('rec-msg',{data,time: Date.now()})
 	})
 	// disconnect
 	socket.on('disconnect',()=> {

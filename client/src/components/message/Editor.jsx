@@ -15,7 +15,7 @@ const Editor = ({ msgs, setMsgs, socket }) => {
         try {
             const { data } = await sendMSG({reciever: currentChat?._id, msg, msgType: "Text"})
             setMsg("")
-            setMsgs(prev=> [...prev,{ sender: user?._id, reciever: currentChat?._id, msgType: "Text", msg }])
+            setMsgs(prev=> [...prev,{ sender: user?._id, reciever: currentChat?._id, msgType: "Text", msg, createdAt: Date.now() }])
         } catch (error) {
             console.log(error)
         }
